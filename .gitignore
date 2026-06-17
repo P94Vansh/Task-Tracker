@@ -1,0 +1,68 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Environment variables
+.env
+.env.*
+**/.env
+**/.env.*
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime files
+pids/
+*.pid
+*.pid.lock
+*.seed
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Build outputs
+dist/
+build/
+out/
+
+# Vite
+.vite/
+
+# Next.js
+.next/
+
+# Cache
+.cache/
+.parcel-cache/
+.eslintcache
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+
+# MongoDB
+*.mongodb
+
+# Package manager
+.pnp
+.pnp.js
+
+# Misc
+.vercel
+.env.local
