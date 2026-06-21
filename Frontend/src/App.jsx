@@ -5,6 +5,7 @@ function App() {
 
   return (
     <>
+      {/* Shared shell for every route. */}
       <Navbar />
       <Outlet />
     </>

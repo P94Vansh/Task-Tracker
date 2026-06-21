@@ -1,6 +1,7 @@
 import dotenv from 'dotenv/config'
 import {connectDB} from './db/index.js'
 import { app } from './app.js'
+// Connect to Mongo before starting the server.
 connectDB()
 .then(()=>{
   app.listen(process.env.PORT || 3000,()=>{

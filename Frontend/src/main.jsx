@@ -5,6 +5,8 @@ import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import SignupPage from './pages/Signup.jsx'
 import HomePage from './pages/Home.jsx'
+
+// Route setup for the app pages.
 const router = createBrowserRouter([
   {
     path: "/",

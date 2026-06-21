@@ -20,12 +20,16 @@ function DarkThemeIcon() {
 function Navbar() {
     const [imgUrl,setImgUrl]=useState('')
     const [theme,setTheme]=useState('light')
+	const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
     const {data:session,isPending}=authClient.useSession()
     useEffect(()=>{
         if(session){
-            setImgUrl(session.user.image)
+			// Pull the current session avatar into the header.
+            setImgUrl(session?.user?.image)
         }
     },[session])
+
+	// Toggle the document theme class for the whole app.
     const toggleThemeChange=()=>{
         const html=document.documentElement
         if(html.classList.contains('dark')){
@@ -35,32 +39,57 @@ function Navbar() {
             html.classList.add('dark')
         }
     }
+	const handleLogout=async()=>{
+		await authClient.signOut()
+		location.reload()
+	}
 	return (
 		<header className="border-b border-neutral-200 bg-neutral-50/95 text-neutral-950 backdrop-blur dark:border-neutral-800 dark:bg-neutral-950/95 dark:text-neutral-50">
-			<div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
-				<div className="flex items-center gap-3">
-					<div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-neutral-950 text-sm font-semibold tracking-tight text-white shadow-sm dark:bg-white dark:text-neutral-950">
+			<div className="mx-auto w-full max-w-6xl px-4 py-4 sm:px-6">
+				<div className="flex items-center justify-between gap-3">
+					<div className="flex items-center gap-3 text-left">
+						<div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-neutral-950 text-sm font-semibold tracking-tight text-white shadow-sm dark:bg-white dark:text-neutral-950">
 						TT
+						</div>
+						<div className="hidden leading-tight sm:block">
+							<p className="text-sm font-semibold text-neutral-950 dark:text-neutral-50">Task Tracker</p>
+							<p className="text-xs text-neutral-500 dark:text-neutral-400">Simple work, clearly organized</p>
+						</div>
 					</div>
-					<div className="leading-tight">
-						<p className="text-sm font-semibold text-neutral-950 dark:text-neutral-50">Task Tracker</p>
-						<p className="text-xs text-neutral-500 dark:text-neutral-400">Simple work, clearly organized</p>
-					</div>
-				</div>
 
-				<div className="flex items-center gap-3">
-					<button
-						type="button"
-						className="flex h-10 items-center gap-2 rounded-full border border-neutral-300 bg-white px-3.5 text-sm font-medium text-neutral-700 shadow-sm transition-colors hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800"
-                        onClick={toggleThemeChange}
-					>
-						<LightThemeIcon />
-						<DarkThemeIcon />
-						<span>Theme</span>
-					</button>
+					<div className="flex items-center gap-3">
+						<button
+							type="button"
+							className="flex h-10 items-center justify-center rounded-full border border-neutral-300 bg-white px-3.5 text-sm font-medium text-neutral-700 shadow-sm transition-colors hover:bg-neutral-100 sm:h-10 sm:gap-2 sm:px-3.5 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800"
+							onClick={toggleThemeChange}
+						>
+							<LightThemeIcon />
+							<DarkThemeIcon />
+							<span className="hidden sm:inline">Theme</span>
+						</button>
 
-					<div className="flex h-10 w-10 items-center justify-center rounded-full border border-neutral-300 bg-white text-sm font-semibold text-neutral-800 shadow-sm dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200">
-						{imgUrl && <img className="rounded-full" src={imgUrl} alt="" />}
+						<div className="relative">
+							<button
+								type="button"
+								className="flex h-10 w-10 items-center justify-center rounded-full border border-neutral-300 bg-white text-sm font-semibold text-neutral-800 shadow-sm transition-colors hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800"
+								onClick={() => setIsProfileMenuOpen((currentValue) => !currentValue)}
+								aria-label="Profile menu"
+							>
+								{imgUrl && <img className="h-full w-full rounded-full object-cover" src={imgUrl} alt="Profile" />}
+							</button>
+
+							{isProfileMenuOpen && (
+								<div className="absolute right-0 top-full z-10 mt-2 w-36 rounded-2xl border border-neutral-200 bg-white p-2 shadow-lg dark:border-neutral-800 dark:bg-neutral-950">
+									<button
+										type="button"
+										className="w-full rounded-xl px-3 py-2 text-left text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-100 dark:text-neutral-200 dark:hover:bg-neutral-900"
+										onClick={handleLogout}
+									>
+										Logout
+									</button>
+								</div>
+							)}
+						</div>
 					</div>
 				</div>
 			</div>

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import { DB_NAME } from '../constants.js'
 import 'dotenv/config'
+// Central connection helper for the Mongoose models.
 const connectDB=async()=>{
     try {
         const connectionInstance=await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`)

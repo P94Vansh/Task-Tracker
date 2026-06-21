@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import logo from "../assets/github-svgrepo-com.svg"
 import {authClient} from '../lib/auth-client'
+import { Navigate } from "react-router-dom";
 const GithubIcon = () => {
     return (
         <svg
@@ -40,10 +41,14 @@ const GoogleIcon = () => {
   );
 };
 function Signup() {
+    const {data:session,isPending}=authClient.useSession()
+    if(session){
+        return <Navigate to="/" replace/>
+    }
     const handleSignUp=async(provider)=>{
         await authClient.signIn.social({
             provider:provider,
-            callbackURL:"/"
+            callbackURL:"http://localhost:5173/"
         })
     }
     return (
